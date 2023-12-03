@@ -3,7 +3,7 @@
     "info": {
         "title": "Create a Wardley Map",
         "description": "API for creating an Online Wardley Map.",
-        "version": "v1.2.7"
+        "version": "v2.0.1"
     },
     "servers": [
         {
