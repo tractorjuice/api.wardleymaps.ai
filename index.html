@@ -750,7 +750,7 @@
         "type" : "string"
       }
     },
-    "owmtext" : {
+    "text" : {
       "type" : "string",
       "description" : "The original Wardley Map text"
     }
@@ -777,7 +777,7 @@
             defs["MapText"] = {
   "type" : "object",
   "properties" : {
-    "owmtext" : {
+    "text" : {
       "type" : "string"
     }
   }
@@ -859,10 +859,10 @@
   }
 };
             defs["v2_generatemap_body"] = {
-  "required" : [ "owmtext" ],
+  "required" : [ "text" ],
   "type" : "object",
   "properties" : {
-    "owmtext" : {
+    "text" : {
       "type" : "string",
       "description" : "The Online Wardley Map (OWM) in text format."
     }
@@ -4539,7 +4539,7 @@ except ApiException as e:
                         <p class="marked"></p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/v2/get-wm-text</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/v2/get-map-text</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -4562,7 +4562,7 @@ except ApiException as e:
                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
 -H "Accept: application/json"\
 -H "Content-Type: application/json"\
-"https://syntaxwardley.replit.app/v2/get-wm-text"</code></pre>
+"https://syntaxwardley.replit.app/v2/get-map-text"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-getWardleyMapText-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
