@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Create a Wardley Map</title>
+  <title>WardleyMaps API</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="UTF-8" />
@@ -689,10 +689,95 @@
   <script>
     // Script section to load models into a JS Var
     var defs = {}
+            defs["Anchors"] = {
+  "type" : "object",
+  "properties" : {
+    "name" : {
+      "type" : "string"
+    },
+    "evolution" : {
+      "type" : "string"
+    },
+    "visibility" : {
+      "type" : "string"
+    }
+  }
+};
+            defs["Annotations"] = {
+  "type" : "object",
+  "properties" : {
+    "name" : {
+      "type" : "string"
+    },
+    "evolution" : {
+      "type" : "string"
+    },
+    "visibility" : {
+      "type" : "string"
+    }
+  }
+};
+            defs["Components"] = {
+  "type" : "object",
+  "properties" : {
+    "name" : {
+      "type" : "string"
+    },
+    "evolution" : {
+      "type" : "string"
+    },
+    "visibility" : {
+      "type" : "string"
+    }
+  }
+};
+            defs["Error"] = {
+  "type" : "object",
+  "properties" : {
+    "error" : {
+      "type" : "string",
+      "description" : "Error message explaining what went wrong"
+    }
+  }
+};
+            defs["inline_response_200"] = {
+  "type" : "object",
+  "properties" : {
+    "warnings" : {
+      "type" : "array",
+      "description" : "List of warnings found in the map",
+      "items" : {
+        "type" : "string"
+      }
+    },
+    "owmtext" : {
+      "type" : "string",
+      "description" : "The original Wardley Map text"
+    }
+  }
+};
             defs["inline_response_default"] = {
   "type" : "object",
   "properties" : {
     "error" : {
+      "type" : "string"
+    }
+  }
+};
+            defs["MapIDRequest"] = {
+  "required" : [ "map_id" ],
+  "type" : "object",
+  "properties" : {
+    "map_id" : {
+      "type" : "string",
+      "description" : "The ID of the Wardley Map"
+    }
+  }
+};
+            defs["MapText"] = {
+  "type" : "object",
+  "properties" : {
+    "owmtext" : {
       "type" : "string"
     }
   }
@@ -707,6 +792,72 @@
     }
   }
 };
+            defs["Name"] = {
+  "required" : [ "map_id", "name" ],
+  "type" : "object",
+  "properties" : {
+    "name" : {
+      "type" : "string"
+    },
+    "description" : {
+      "type" : "string"
+    },
+    "evolution" : {
+      "type" : "string"
+    },
+    "map_id" : {
+      "type" : "string",
+      "description" : "The ID of the Wardley Map"
+    }
+  }
+};
+            defs["Notes"] = {
+  "type" : "object",
+  "properties" : {
+    "name" : {
+      "type" : "string"
+    },
+    "evolution" : {
+      "type" : "string"
+    },
+    "visibility" : {
+      "type" : "string"
+    }
+  }
+};
+            defs["Pipelines"] = {
+  "type" : "object",
+  "properties" : {
+    "name" : {
+      "type" : "string"
+    },
+    "evolution" : {
+      "type" : "string"
+    },
+    "visibility" : {
+      "type" : "string"
+    }
+  }
+};
+            defs["Search"] = {
+  "required" : [ "map_id", "search_term" ],
+  "type" : "object",
+  "properties" : {
+    "search_term" : {
+      "type" : "string"
+    },
+    "description" : {
+      "type" : "string"
+    },
+    "evolution" : {
+      "type" : "string"
+    },
+    "map_id" : {
+      "type" : "string",
+      "description" : "The ID of the Wardley Map"
+    }
+  }
+};
             defs["v2_generatemap_body"] = {
   "required" : [ "owmtext" ],
   "type" : "object",
@@ -714,6 +865,15 @@
     "owmtext" : {
       "type" : "string",
       "description" : "The Online Wardley Map (OWM) in text format."
+    }
+  }
+};
+            defs["v2_getwmwarnings_body"] = {
+  "type" : "object",
+  "properties" : {
+    "map_id" : {
+      "type" : "string",
+      "description" : "The ID of the Wardley Map to retrieve warnings for."
     }
   }
 };
@@ -787,8 +947,35 @@
                     <li data-group="Default" data-name="getPrivacyStatement" class="">
                       <a href="#api-Default-getPrivacyStatement">getPrivacyStatement</a>
                     </li>
+                    <li data-group="Default" data-name="getWardleyMapAnchors" class="">
+                      <a href="#api-Default-getWardleyMapAnchors">getWardleyMapAnchors</a>
+                    </li>
+                    <li data-group="Default" data-name="getWardleyMapAnnotations" class="">
+                      <a href="#api-Default-getWardleyMapAnnotations">getWardleyMapAnnotations</a>
+                    </li>
+                    <li data-group="Default" data-name="getWardleyMapComponent" class="">
+                      <a href="#api-Default-getWardleyMapComponent">getWardleyMapComponent</a>
+                    </li>
+                    <li data-group="Default" data-name="getWardleyMapComponents" class="">
+                      <a href="#api-Default-getWardleyMapComponents">getWardleyMapComponents</a>
+                    </li>
+                    <li data-group="Default" data-name="getWardleyMapNotes" class="">
+                      <a href="#api-Default-getWardleyMapNotes">getWardleyMapNotes</a>
+                    </li>
+                    <li data-group="Default" data-name="getWardleyMapPipelines" class="">
+                      <a href="#api-Default-getWardleyMapPipelines">getWardleyMapPipelines</a>
+                    </li>
+                    <li data-group="Default" data-name="getWardleyMapText" class="">
+                      <a href="#api-Default-getWardleyMapText">getWardleyMapText</a>
+                    </li>
+                    <li data-group="Default" data-name="getWardleyMapWarnings" class="">
+                      <a href="#api-Default-getWardleyMapWarnings">getWardleyMapWarnings</a>
+                    </li>
                     <li data-group="Default" data-name="saveWardleyMap" class="">
                       <a href="#api-Default-saveWardleyMap">saveWardleyMap</a>
+                    </li>
+                    <li data-group="Default" data-name="searchWardleyMapComponents" class="">
+                      <a href="#api-Default-searchWardleyMapComponents">searchWardleyMapComponents</a>
                     </li>
           </ul>
         </nav>
@@ -796,16 +983,16 @@
       <div id="content">
         <div id="project">
           <div class="pull-left">
-            <h1>Create a Wardley Map</h1>
+            <h1>WardleyMaps API</h1>
           </div>
           <div class="clearfix"></div>
         </div>
         <div id="header">
           <div id="api-_">
             <h2 id="welcome-to-apidoc">API and SDK Documentation</h2>
-              <div class="app-desc">Version: 1.0.0</div>
+              <div class="app-desc">Version: 2.0.0</div>
             <hr>
-            <div>API for creating an Online Wardley Map.</div>
+            <div>API for interacting with Wardley Maps, allowing access to various map components like warnings, components, anchors, pipelines, notes, and annotations.</div>
           </div>
         </div>
         <div id="sections">
@@ -823,7 +1010,7 @@
                         <p class="marked">Get the Wardley Map specified by the ID.</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/v1/maps/fetch</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/v2/maps/fetch</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -845,7 +1032,7 @@
                           <div class="tab-pane active" id="examples-Default-fetchWardleyMap-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"https://api.wardleymaps.ai/v1/maps/fetch?id="</code></pre>
+"https://syntaxwardley.replit.app/v2/maps/fetch?id="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-fetchWardleyMap-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -914,9 +1101,9 @@ DefaultApi *apiInstance = [[DefaultApi alloc] init];
                             </div>
 
                             <div class="tab-pane" id="examples-Default-fetchWardleyMap-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var CreateAWardleyMap = require('create_a_wardley_map');
+                              <pre class="prettyprint"><code class="language-js">var WardleyMapsApi = require('wardley_maps_api');
 
-var api = new CreateAWardleyMap.DefaultApi()
+var api = new WardleyMapsApi.DefaultApi()
 var id = id_example; // {{String}} The ID of the map to retrieve.
 
 var callback = function(error, data, response) {
@@ -1142,7 +1329,7 @@ except ApiException as e:
                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
 -H "Accept: application/json"\
 -H "Content-Type: application/json"\
-"https://api.wardleymaps.ai/v2/generate-map"</code></pre>
+"https://syntaxwardley.replit.app/v2/generate-map"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-generateWardleyMap-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1211,9 +1398,9 @@ DefaultApi *apiInstance = [[DefaultApi alloc] init];
                             </div>
 
                             <div class="tab-pane" id="examples-Default-generateWardleyMap-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var CreateAWardleyMap = require('create_a_wardley_map');
+                              <pre class="prettyprint"><code class="language-js">var WardleyMapsApi = require('wardley_maps_api');
 
-var api = new CreateAWardleyMap.DefaultApi()
+var api = new WardleyMapsApi.DefaultApi()
 var body = ; // {{V2_generatemap_body}} 
 
 var callback = function(error, data, response) {
@@ -1430,7 +1617,7 @@ except ApiException as e:
                         <p class="marked">Returns the image file generated by the /generate-map endpoint.</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/v1/image/{filename}</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/v2/image/{filename}</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -1452,7 +1639,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Default-getImage-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: image/png"\
-"https://api.wardleymaps.ai/v1/image/{filename}"</code></pre>
+"https://syntaxwardley.replit.app/v2/image/{filename}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-getImage-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1516,9 +1703,9 @@ DefaultApi *apiInstance = [[DefaultApi alloc] init];
                             </div>
 
                             <div class="tab-pane" id="examples-Default-getImage-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var CreateAWardleyMap = require('create_a_wardley_map');
+                              <pre class="prettyprint"><code class="language-js">var WardleyMapsApi = require('wardley_maps_api');
 
-var api = new CreateAWardleyMap.DefaultApi()
+var api = new WardleyMapsApi.DefaultApi()
 var filename = filename_example; // {{String}} The name of the image file to retrieve.
 
 var callback = function(error, data, response) {
@@ -1677,7 +1864,7 @@ except ApiException as e:
                         <p class="marked">Returns the privacy statement for the API.</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/v1/privacy</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/v2/privacy</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -1699,7 +1886,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Default-getPrivacyStatement-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: text/plain"\
-"https://api.wardleymaps.ai/v1/privacy"</code></pre>
+"https://syntaxwardley.replit.app/v2/privacy"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-getPrivacyStatement-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1760,9 +1947,9 @@ DefaultApi *apiInstance = [[DefaultApi alloc] init];
                             </div>
 
                             <div class="tab-pane" id="examples-Default-getPrivacyStatement-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var CreateAWardleyMap = require('create_a_wardley_map');
+                              <pre class="prettyprint"><code class="language-js">var WardleyMapsApi = require('wardley_maps_api');
 
-var api = new CreateAWardleyMap.DefaultApi()
+var api = new WardleyMapsApi.DefaultApi()
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -1874,6 +2061,3290 @@ except ApiException as e:
                         </article>
                       </div>
                       <hr>
+                    <div id="api-Default-getWardleyMapAnchors">
+                      <article id="api-Default-getWardleyMapAnchors-0" data-group="User" data-name="getWardleyMapAnchors" data-version="0">
+                        <div class="pull-left">
+                          <h1>getWardleyMapAnchors</h1>
+                          <p>Retrieve anchors of a specific Wardley Map</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/v2/get-wm-anchors</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-getWardleyMapAnchors-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapAnchors-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapAnchors-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-getWardleyMapAnchors-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-getWardleyMapAnchors-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapAnchors-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-getWardleyMapAnchors-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-getWardleyMapAnchors-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapAnchors-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapAnchors-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapAnchors-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-getWardleyMapAnchors-0-curl">
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+-H "Accept: application/json"\
+-H "Content-Type: application/json"\
+"https://syntaxwardley.replit.app/v2/get-wm-anchors"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-getWardleyMapAnchors-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        MapIDRequest body = ; // MapIDRequest | 
+        try {
+            array[Anchors] result = apiInstance.getWardleyMapAnchors(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getWardleyMapAnchors");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-getWardleyMapAnchors-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        MapIDRequest body = ; // MapIDRequest | 
+        try {
+            array[Anchors] result = apiInstance.getWardleyMapAnchors(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getWardleyMapAnchors");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-getWardleyMapAnchors-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-getWardleyMapAnchors-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">MapIDRequest *body = ; // 
+
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Retrieve anchors of a specific Wardley Map
+[apiInstance getWardleyMapAnchorsWith:body
+              completionHandler: ^(array[Anchors] output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapAnchors-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var WardleyMapsApi = require('wardley_maps_api');
+
+var api = new WardleyMapsApi.DefaultApi()
+var body = ; // {{MapIDRequest}} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.getWardleyMapAnchors(body, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-getWardleyMapAnchors-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-getWardleyMapAnchors-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class getWardleyMapAnchorsExample
+    {
+        public void main()
+        {
+
+            var apiInstance = new DefaultApi();
+            var body = new MapIDRequest(); // MapIDRequest | 
+
+            try
+            {
+                // Retrieve anchors of a specific Wardley Map
+                array[Anchors] result = apiInstance.getWardleyMapAnchors(body);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.getWardleyMapAnchors: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapAnchors-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\ApiDefaultApi();
+$body = ; // MapIDRequest | 
+
+try {
+    $result = $api_instance->getWardleyMapAnchors($body);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->getWardleyMapAnchors: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapAnchors-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $body = WWW::SwaggerClient::Object::MapIDRequest->new(); # MapIDRequest | 
+
+eval { 
+    my $result = $api_instance->getWardleyMapAnchors(body => $body);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->getWardleyMapAnchors: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapAnchors-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+body =  # MapIDRequest | 
+
+try: 
+    # Retrieve anchors of a specific Wardley Map
+    api_response = api_instance.get_wardley_map_anchors(body)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->getWardleyMapAnchors: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
+                                <td>
+                                
+                                
+                                <script>
+                                $(document).ready(function() {
+                                  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/MapIDRequest"
+      }
+    }
+  },
+  "required" : true
+};
+                                  var schema = schemaWrapper.content["application/json"].schema;
+                                  if (schema.$ref != null) {
+                                    schema = defsParser.$refs.get(schema.$ref);
+                                  } else {
+                                    schemaWrapper.components = {};
+                                    schemaWrapper.components.schemas = Object.assign({}, defs);
+                                    $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                      console.log(err);
+                                    });
+                                  }
+                                
+                                  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+                                  var result = $('#d2e199_getWardleyMapAnchors_body');
+                                  result.empty();
+                                  result.append(view.render());
+                                });
+                                </script>
+                                <div id="d2e199_getWardleyMapAnchors_body"></div>
+                                </td>
+                                </tr>
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - List of anchors </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapAnchors-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapAnchors-200-schema">
+                                  <div id='responses-getWardleyMapAnchors-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "List of anchors",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Anchors"
+        },
+        "x-content-type" : "application/json"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapAnchors-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapAnchors-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapAnchors-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 - Bad request - missing or invalid parameters </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapAnchors-400-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapAnchors-400-schema">
+                                  <div id='responses-getWardleyMapAnchors-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Bad request - missing or invalid parameters",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Error"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapAnchors-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapAnchors-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapAnchors-400-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Internal server error </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapAnchors-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapAnchors-500-schema">
+                                  <div id='responses-getWardleyMapAnchors-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Internal server error",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Error"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapAnchors-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapAnchors-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapAnchors-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Default-getWardleyMapAnnotations">
+                      <article id="api-Default-getWardleyMapAnnotations-0" data-group="User" data-name="getWardleyMapAnnotations" data-version="0">
+                        <div class="pull-left">
+                          <h1>getWardleyMapAnnotations</h1>
+                          <p>Retrieve annotations of a specific Wardley Map</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/v2/get-wm-annotations</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-getWardleyMapAnnotations-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapAnnotations-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapAnnotations-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-getWardleyMapAnnotations-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-getWardleyMapAnnotations-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapAnnotations-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-getWardleyMapAnnotations-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-getWardleyMapAnnotations-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapAnnotations-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapAnnotations-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapAnnotations-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-getWardleyMapAnnotations-0-curl">
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+-H "Accept: application/json"\
+-H "Content-Type: application/json"\
+"https://syntaxwardley.replit.app/v2/get-wm-annotations"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-getWardleyMapAnnotations-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        MapIDRequest body = ; // MapIDRequest | 
+        try {
+            array[Annotations] result = apiInstance.getWardleyMapAnnotations(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getWardleyMapAnnotations");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-getWardleyMapAnnotations-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        MapIDRequest body = ; // MapIDRequest | 
+        try {
+            array[Annotations] result = apiInstance.getWardleyMapAnnotations(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getWardleyMapAnnotations");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-getWardleyMapAnnotations-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-getWardleyMapAnnotations-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">MapIDRequest *body = ; // 
+
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Retrieve annotations of a specific Wardley Map
+[apiInstance getWardleyMapAnnotationsWith:body
+              completionHandler: ^(array[Annotations] output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapAnnotations-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var WardleyMapsApi = require('wardley_maps_api');
+
+var api = new WardleyMapsApi.DefaultApi()
+var body = ; // {{MapIDRequest}} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.getWardleyMapAnnotations(body, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-getWardleyMapAnnotations-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-getWardleyMapAnnotations-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class getWardleyMapAnnotationsExample
+    {
+        public void main()
+        {
+
+            var apiInstance = new DefaultApi();
+            var body = new MapIDRequest(); // MapIDRequest | 
+
+            try
+            {
+                // Retrieve annotations of a specific Wardley Map
+                array[Annotations] result = apiInstance.getWardleyMapAnnotations(body);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.getWardleyMapAnnotations: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapAnnotations-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\ApiDefaultApi();
+$body = ; // MapIDRequest | 
+
+try {
+    $result = $api_instance->getWardleyMapAnnotations($body);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->getWardleyMapAnnotations: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapAnnotations-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $body = WWW::SwaggerClient::Object::MapIDRequest->new(); # MapIDRequest | 
+
+eval { 
+    my $result = $api_instance->getWardleyMapAnnotations(body => $body);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->getWardleyMapAnnotations: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapAnnotations-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+body =  # MapIDRequest | 
+
+try: 
+    # Retrieve annotations of a specific Wardley Map
+    api_response = api_instance.get_wardley_map_annotations(body)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->getWardleyMapAnnotations: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
+                                <td>
+                                
+                                
+                                <script>
+                                $(document).ready(function() {
+                                  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/MapIDRequest"
+      }
+    }
+  },
+  "required" : true
+};
+                                  var schema = schemaWrapper.content["application/json"].schema;
+                                  if (schema.$ref != null) {
+                                    schema = defsParser.$refs.get(schema.$ref);
+                                  } else {
+                                    schemaWrapper.components = {};
+                                    schemaWrapper.components.schemas = Object.assign({}, defs);
+                                    $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                      console.log(err);
+                                    });
+                                  }
+                                
+                                  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+                                  var result = $('#d2e199_getWardleyMapAnnotations_body');
+                                  result.empty();
+                                  result.append(view.render());
+                                });
+                                </script>
+                                <div id="d2e199_getWardleyMapAnnotations_body"></div>
+                                </td>
+                                </tr>
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - List of notes </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapAnnotations-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapAnnotations-200-schema">
+                                  <div id='responses-getWardleyMapAnnotations-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "List of notes",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Annotations"
+        },
+        "x-content-type" : "application/json"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapAnnotations-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapAnnotations-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapAnnotations-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 - Bad request - missing or invalid parameters </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapAnnotations-400-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapAnnotations-400-schema">
+                                  <div id='responses-getWardleyMapAnnotations-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Bad request - missing or invalid parameters",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Error"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapAnnotations-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapAnnotations-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapAnnotations-400-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Internal server error </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapAnnotations-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapAnnotations-500-schema">
+                                  <div id='responses-getWardleyMapAnnotations-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Internal server error",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Error"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapAnnotations-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapAnnotations-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapAnnotations-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Default-getWardleyMapComponent">
+                      <article id="api-Default-getWardleyMapComponent-0" data-group="User" data-name="getWardleyMapComponent" data-version="0">
+                        <div class="pull-left">
+                          <h1>getWardleyMapComponent</h1>
+                          <p>Retrieve details of a specific component of a Wardley Map</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/v2/get-wm-component</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-getWardleyMapComponent-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapComponent-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapComponent-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-getWardleyMapComponent-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-getWardleyMapComponent-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapComponent-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-getWardleyMapComponent-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-getWardleyMapComponent-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapComponent-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapComponent-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapComponent-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-getWardleyMapComponent-0-curl">
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+-H "Accept: application/json"\
+-H "Content-Type: application/json"\
+"https://syntaxwardley.replit.app/v2/get-wm-component"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-getWardleyMapComponent-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        Name body = ; // Name | 
+        try {
+            array[Components] result = apiInstance.getWardleyMapComponent(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getWardleyMapComponent");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-getWardleyMapComponent-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        Name body = ; // Name | 
+        try {
+            array[Components] result = apiInstance.getWardleyMapComponent(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getWardleyMapComponent");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-getWardleyMapComponent-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-getWardleyMapComponent-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">Name *body = ; // 
+
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Retrieve details of a specific component of a Wardley Map
+[apiInstance getWardleyMapComponentWith:body
+              completionHandler: ^(array[Components] output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapComponent-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var WardleyMapsApi = require('wardley_maps_api');
+
+var api = new WardleyMapsApi.DefaultApi()
+var body = ; // {{Name}} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.getWardleyMapComponent(body, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-getWardleyMapComponent-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-getWardleyMapComponent-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class getWardleyMapComponentExample
+    {
+        public void main()
+        {
+
+            var apiInstance = new DefaultApi();
+            var body = new Name(); // Name | 
+
+            try
+            {
+                // Retrieve details of a specific component of a Wardley Map
+                array[Components] result = apiInstance.getWardleyMapComponent(body);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.getWardleyMapComponent: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapComponent-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\ApiDefaultApi();
+$body = ; // Name | 
+
+try {
+    $result = $api_instance->getWardleyMapComponent($body);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->getWardleyMapComponent: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapComponent-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $body = WWW::SwaggerClient::Object::Name->new(); # Name | 
+
+eval { 
+    my $result = $api_instance->getWardleyMapComponent(body => $body);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->getWardleyMapComponent: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapComponent-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+body =  # Name | 
+
+try: 
+    # Retrieve details of a specific component of a Wardley Map
+    api_response = api_instance.get_wardley_map_component(body)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->getWardleyMapComponent: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
+                                <td>
+                                
+                                
+                                <script>
+                                $(document).ready(function() {
+                                  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Name"
+      }
+    }
+  },
+  "required" : true
+};
+                                  var schema = schemaWrapper.content["application/json"].schema;
+                                  if (schema.$ref != null) {
+                                    schema = defsParser.$refs.get(schema.$ref);
+                                  } else {
+                                    schemaWrapper.components = {};
+                                    schemaWrapper.components.schemas = Object.assign({}, defs);
+                                    $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                      console.log(err);
+                                    });
+                                  }
+                                
+                                  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+                                  var result = $('#d2e199_getWardleyMapComponent_body');
+                                  result.empty();
+                                  result.append(view.render());
+                                });
+                                </script>
+                                <div id="d2e199_getWardleyMapComponent_body"></div>
+                                </td>
+                                </tr>
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - Details of a specific component </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapComponent-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapComponent-200-schema">
+                                  <div id='responses-getWardleyMapComponent-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Details of a specific component",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Components"
+        },
+        "x-content-type" : "application/json"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapComponent-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapComponent-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapComponent-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 - Bad request - missing or invalid parameters </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapComponent-400-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapComponent-400-schema">
+                                  <div id='responses-getWardleyMapComponent-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Bad request - missing or invalid parameters",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Error"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapComponent-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapComponent-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapComponent-400-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Internal server error </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapComponent-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapComponent-500-schema">
+                                  <div id='responses-getWardleyMapComponent-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Internal server error",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Error"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapComponent-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapComponent-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapComponent-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Default-getWardleyMapComponents">
+                      <article id="api-Default-getWardleyMapComponents-0" data-group="User" data-name="getWardleyMapComponents" data-version="0">
+                        <div class="pull-left">
+                          <h1>getWardleyMapComponents</h1>
+                          <p>Retrieve components of a specific Wardley Map</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/v2/get-wm-components</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-getWardleyMapComponents-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapComponents-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapComponents-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-getWardleyMapComponents-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-getWardleyMapComponents-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapComponents-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-getWardleyMapComponents-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-getWardleyMapComponents-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapComponents-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapComponents-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapComponents-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-getWardleyMapComponents-0-curl">
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+-H "Accept: application/json"\
+-H "Content-Type: application/json"\
+"https://syntaxwardley.replit.app/v2/get-wm-components"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-getWardleyMapComponents-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        MapIDRequest body = ; // MapIDRequest | 
+        try {
+            array[Components] result = apiInstance.getWardleyMapComponents(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getWardleyMapComponents");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-getWardleyMapComponents-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        MapIDRequest body = ; // MapIDRequest | 
+        try {
+            array[Components] result = apiInstance.getWardleyMapComponents(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getWardleyMapComponents");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-getWardleyMapComponents-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-getWardleyMapComponents-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">MapIDRequest *body = ; // 
+
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Retrieve components of a specific Wardley Map
+[apiInstance getWardleyMapComponentsWith:body
+              completionHandler: ^(array[Components] output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapComponents-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var WardleyMapsApi = require('wardley_maps_api');
+
+var api = new WardleyMapsApi.DefaultApi()
+var body = ; // {{MapIDRequest}} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.getWardleyMapComponents(body, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-getWardleyMapComponents-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-getWardleyMapComponents-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class getWardleyMapComponentsExample
+    {
+        public void main()
+        {
+
+            var apiInstance = new DefaultApi();
+            var body = new MapIDRequest(); // MapIDRequest | 
+
+            try
+            {
+                // Retrieve components of a specific Wardley Map
+                array[Components] result = apiInstance.getWardleyMapComponents(body);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.getWardleyMapComponents: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapComponents-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\ApiDefaultApi();
+$body = ; // MapIDRequest | 
+
+try {
+    $result = $api_instance->getWardleyMapComponents($body);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->getWardleyMapComponents: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapComponents-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $body = WWW::SwaggerClient::Object::MapIDRequest->new(); # MapIDRequest | 
+
+eval { 
+    my $result = $api_instance->getWardleyMapComponents(body => $body);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->getWardleyMapComponents: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapComponents-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+body =  # MapIDRequest | 
+
+try: 
+    # Retrieve components of a specific Wardley Map
+    api_response = api_instance.get_wardley_map_components(body)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->getWardleyMapComponents: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
+                                <td>
+                                
+                                
+                                <script>
+                                $(document).ready(function() {
+                                  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/MapIDRequest"
+      }
+    }
+  },
+  "required" : true
+};
+                                  var schema = schemaWrapper.content["application/json"].schema;
+                                  if (schema.$ref != null) {
+                                    schema = defsParser.$refs.get(schema.$ref);
+                                  } else {
+                                    schemaWrapper.components = {};
+                                    schemaWrapper.components.schemas = Object.assign({}, defs);
+                                    $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                      console.log(err);
+                                    });
+                                  }
+                                
+                                  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+                                  var result = $('#d2e199_getWardleyMapComponents_body');
+                                  result.empty();
+                                  result.append(view.render());
+                                });
+                                </script>
+                                <div id="d2e199_getWardleyMapComponents_body"></div>
+                                </td>
+                                </tr>
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - List of components </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapComponents-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapComponents-200-schema">
+                                  <div id='responses-getWardleyMapComponents-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "List of components",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Components"
+        },
+        "x-content-type" : "application/json"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapComponents-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapComponents-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapComponents-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 - Bad request - missing or invalid parameters </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapComponents-400-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapComponents-400-schema">
+                                  <div id='responses-getWardleyMapComponents-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Bad request - missing or invalid parameters",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Error"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapComponents-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapComponents-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapComponents-400-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Internal server error </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapComponents-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapComponents-500-schema">
+                                  <div id='responses-getWardleyMapComponents-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Internal server error",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Error"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapComponents-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapComponents-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapComponents-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Default-getWardleyMapNotes">
+                      <article id="api-Default-getWardleyMapNotes-0" data-group="User" data-name="getWardleyMapNotes" data-version="0">
+                        <div class="pull-left">
+                          <h1>getWardleyMapNotes</h1>
+                          <p>Retrieve notes of a specific Wardley Map</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/v2/get-wm-notes</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-getWardleyMapNotes-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapNotes-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapNotes-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-getWardleyMapNotes-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-getWardleyMapNotes-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapNotes-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-getWardleyMapNotes-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-getWardleyMapNotes-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapNotes-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapNotes-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapNotes-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-getWardleyMapNotes-0-curl">
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+-H "Accept: application/json"\
+-H "Content-Type: application/json"\
+"https://syntaxwardley.replit.app/v2/get-wm-notes"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-getWardleyMapNotes-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        MapIDRequest body = ; // MapIDRequest | 
+        try {
+            array[Notes] result = apiInstance.getWardleyMapNotes(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getWardleyMapNotes");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-getWardleyMapNotes-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        MapIDRequest body = ; // MapIDRequest | 
+        try {
+            array[Notes] result = apiInstance.getWardleyMapNotes(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getWardleyMapNotes");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-getWardleyMapNotes-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-getWardleyMapNotes-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">MapIDRequest *body = ; // 
+
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Retrieve notes of a specific Wardley Map
+[apiInstance getWardleyMapNotesWith:body
+              completionHandler: ^(array[Notes] output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapNotes-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var WardleyMapsApi = require('wardley_maps_api');
+
+var api = new WardleyMapsApi.DefaultApi()
+var body = ; // {{MapIDRequest}} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.getWardleyMapNotes(body, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-getWardleyMapNotes-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-getWardleyMapNotes-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class getWardleyMapNotesExample
+    {
+        public void main()
+        {
+
+            var apiInstance = new DefaultApi();
+            var body = new MapIDRequest(); // MapIDRequest | 
+
+            try
+            {
+                // Retrieve notes of a specific Wardley Map
+                array[Notes] result = apiInstance.getWardleyMapNotes(body);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.getWardleyMapNotes: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapNotes-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\ApiDefaultApi();
+$body = ; // MapIDRequest | 
+
+try {
+    $result = $api_instance->getWardleyMapNotes($body);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->getWardleyMapNotes: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapNotes-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $body = WWW::SwaggerClient::Object::MapIDRequest->new(); # MapIDRequest | 
+
+eval { 
+    my $result = $api_instance->getWardleyMapNotes(body => $body);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->getWardleyMapNotes: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapNotes-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+body =  # MapIDRequest | 
+
+try: 
+    # Retrieve notes of a specific Wardley Map
+    api_response = api_instance.get_wardley_map_notes(body)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->getWardleyMapNotes: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
+                                <td>
+                                
+                                
+                                <script>
+                                $(document).ready(function() {
+                                  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/MapIDRequest"
+      }
+    }
+  },
+  "required" : true
+};
+                                  var schema = schemaWrapper.content["application/json"].schema;
+                                  if (schema.$ref != null) {
+                                    schema = defsParser.$refs.get(schema.$ref);
+                                  } else {
+                                    schemaWrapper.components = {};
+                                    schemaWrapper.components.schemas = Object.assign({}, defs);
+                                    $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                      console.log(err);
+                                    });
+                                  }
+                                
+                                  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+                                  var result = $('#d2e199_getWardleyMapNotes_body');
+                                  result.empty();
+                                  result.append(view.render());
+                                });
+                                </script>
+                                <div id="d2e199_getWardleyMapNotes_body"></div>
+                                </td>
+                                </tr>
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - List of notes </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapNotes-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapNotes-200-schema">
+                                  <div id='responses-getWardleyMapNotes-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "List of notes",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Notes"
+        },
+        "x-content-type" : "application/json"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapNotes-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapNotes-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapNotes-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 - Bad request - missing or invalid parameters </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapNotes-400-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapNotes-400-schema">
+                                  <div id='responses-getWardleyMapNotes-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Bad request - missing or invalid parameters",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Error"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapNotes-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapNotes-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapNotes-400-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Internal server error </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapNotes-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapNotes-500-schema">
+                                  <div id='responses-getWardleyMapNotes-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Internal server error",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Error"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapNotes-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapNotes-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapNotes-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Default-getWardleyMapPipelines">
+                      <article id="api-Default-getWardleyMapPipelines-0" data-group="User" data-name="getWardleyMapPipelines" data-version="0">
+                        <div class="pull-left">
+                          <h1>getWardleyMapPipelines</h1>
+                          <p>Retrieve pipelines of a specific Wardley Map</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/v2/get-wm-pipelines</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-getWardleyMapPipelines-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapPipelines-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapPipelines-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-getWardleyMapPipelines-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-getWardleyMapPipelines-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapPipelines-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-getWardleyMapPipelines-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-getWardleyMapPipelines-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapPipelines-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapPipelines-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapPipelines-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-getWardleyMapPipelines-0-curl">
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+-H "Accept: application/json"\
+-H "Content-Type: application/json"\
+"https://syntaxwardley.replit.app/v2/get-wm-pipelines"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-getWardleyMapPipelines-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        MapIDRequest body = ; // MapIDRequest | 
+        try {
+            array[Pipelines] result = apiInstance.getWardleyMapPipelines(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getWardleyMapPipelines");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-getWardleyMapPipelines-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        MapIDRequest body = ; // MapIDRequest | 
+        try {
+            array[Pipelines] result = apiInstance.getWardleyMapPipelines(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getWardleyMapPipelines");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-getWardleyMapPipelines-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-getWardleyMapPipelines-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">MapIDRequest *body = ; // 
+
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Retrieve pipelines of a specific Wardley Map
+[apiInstance getWardleyMapPipelinesWith:body
+              completionHandler: ^(array[Pipelines] output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapPipelines-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var WardleyMapsApi = require('wardley_maps_api');
+
+var api = new WardleyMapsApi.DefaultApi()
+var body = ; // {{MapIDRequest}} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.getWardleyMapPipelines(body, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-getWardleyMapPipelines-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-getWardleyMapPipelines-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class getWardleyMapPipelinesExample
+    {
+        public void main()
+        {
+
+            var apiInstance = new DefaultApi();
+            var body = new MapIDRequest(); // MapIDRequest | 
+
+            try
+            {
+                // Retrieve pipelines of a specific Wardley Map
+                array[Pipelines] result = apiInstance.getWardleyMapPipelines(body);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.getWardleyMapPipelines: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapPipelines-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\ApiDefaultApi();
+$body = ; // MapIDRequest | 
+
+try {
+    $result = $api_instance->getWardleyMapPipelines($body);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->getWardleyMapPipelines: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapPipelines-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $body = WWW::SwaggerClient::Object::MapIDRequest->new(); # MapIDRequest | 
+
+eval { 
+    my $result = $api_instance->getWardleyMapPipelines(body => $body);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->getWardleyMapPipelines: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapPipelines-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+body =  # MapIDRequest | 
+
+try: 
+    # Retrieve pipelines of a specific Wardley Map
+    api_response = api_instance.get_wardley_map_pipelines(body)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->getWardleyMapPipelines: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
+                                <td>
+                                
+                                
+                                <script>
+                                $(document).ready(function() {
+                                  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/MapIDRequest"
+      }
+    }
+  },
+  "required" : true
+};
+                                  var schema = schemaWrapper.content["application/json"].schema;
+                                  if (schema.$ref != null) {
+                                    schema = defsParser.$refs.get(schema.$ref);
+                                  } else {
+                                    schemaWrapper.components = {};
+                                    schemaWrapper.components.schemas = Object.assign({}, defs);
+                                    $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                      console.log(err);
+                                    });
+                                  }
+                                
+                                  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+                                  var result = $('#d2e199_getWardleyMapPipelines_body');
+                                  result.empty();
+                                  result.append(view.render());
+                                });
+                                </script>
+                                <div id="d2e199_getWardleyMapPipelines_body"></div>
+                                </td>
+                                </tr>
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - List of pipelines </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapPipelines-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapPipelines-200-schema">
+                                  <div id='responses-getWardleyMapPipelines-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "List of pipelines",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Pipelines"
+        },
+        "x-content-type" : "application/json"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapPipelines-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapPipelines-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapPipelines-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 - Bad request - missing or invalid parameters </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapPipelines-400-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapPipelines-400-schema">
+                                  <div id='responses-getWardleyMapPipelines-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Bad request - missing or invalid parameters",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Error"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapPipelines-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapPipelines-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapPipelines-400-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Internal server error </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapPipelines-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapPipelines-500-schema">
+                                  <div id='responses-getWardleyMapPipelines-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Internal server error",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Error"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapPipelines-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapPipelines-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapPipelines-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Default-getWardleyMapText">
+                      <article id="api-Default-getWardleyMapText-0" data-group="User" data-name="getWardleyMapText" data-version="0">
+                        <div class="pull-left">
+                          <h1>getWardleyMapText</h1>
+                          <p>Retrieve map text in OWM foramt of a specific Wardley Map</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/v2/get-wm-text</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-getWardleyMapText-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapText-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapText-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-getWardleyMapText-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-getWardleyMapText-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapText-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-getWardleyMapText-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-getWardleyMapText-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapText-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapText-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapText-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-getWardleyMapText-0-curl">
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+-H "Accept: application/json"\
+-H "Content-Type: application/json"\
+"https://syntaxwardley.replit.app/v2/get-wm-text"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-getWardleyMapText-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        MapIDRequest body = ; // MapIDRequest | 
+        try {
+            array[MapText] result = apiInstance.getWardleyMapText(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getWardleyMapText");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-getWardleyMapText-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        MapIDRequest body = ; // MapIDRequest | 
+        try {
+            array[MapText] result = apiInstance.getWardleyMapText(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getWardleyMapText");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-getWardleyMapText-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-getWardleyMapText-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">MapIDRequest *body = ; // 
+
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Retrieve map text in OWM foramt of a specific Wardley Map
+[apiInstance getWardleyMapTextWith:body
+              completionHandler: ^(array[MapText] output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapText-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var WardleyMapsApi = require('wardley_maps_api');
+
+var api = new WardleyMapsApi.DefaultApi()
+var body = ; // {{MapIDRequest}} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.getWardleyMapText(body, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-getWardleyMapText-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-getWardleyMapText-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class getWardleyMapTextExample
+    {
+        public void main()
+        {
+
+            var apiInstance = new DefaultApi();
+            var body = new MapIDRequest(); // MapIDRequest | 
+
+            try
+            {
+                // Retrieve map text in OWM foramt of a specific Wardley Map
+                array[MapText] result = apiInstance.getWardleyMapText(body);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.getWardleyMapText: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapText-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\ApiDefaultApi();
+$body = ; // MapIDRequest | 
+
+try {
+    $result = $api_instance->getWardleyMapText($body);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->getWardleyMapText: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapText-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $body = WWW::SwaggerClient::Object::MapIDRequest->new(); # MapIDRequest | 
+
+eval { 
+    my $result = $api_instance->getWardleyMapText(body => $body);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->getWardleyMapText: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapText-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+body =  # MapIDRequest | 
+
+try: 
+    # Retrieve map text in OWM foramt of a specific Wardley Map
+    api_response = api_instance.get_wardley_map_text(body)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->getWardleyMapText: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
+                                <td>
+                                
+                                
+                                <script>
+                                $(document).ready(function() {
+                                  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/MapIDRequest"
+      }
+    }
+  },
+  "required" : true
+};
+                                  var schema = schemaWrapper.content["application/json"].schema;
+                                  if (schema.$ref != null) {
+                                    schema = defsParser.$refs.get(schema.$ref);
+                                  } else {
+                                    schemaWrapper.components = {};
+                                    schemaWrapper.components.schemas = Object.assign({}, defs);
+                                    $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                      console.log(err);
+                                    });
+                                  }
+                                
+                                  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+                                  var result = $('#d2e199_getWardleyMapText_body');
+                                  result.empty();
+                                  result.append(view.render());
+                                });
+                                </script>
+                                <div id="d2e199_getWardleyMapText_body"></div>
+                                </td>
+                                </tr>
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - Wardley Map in OWM text format </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapText-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapText-200-schema">
+                                  <div id='responses-getWardleyMapText-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Wardley Map in OWM text format",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/MapText"
+        },
+        "x-content-type" : "application/json"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapText-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapText-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapText-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 - Bad request - missing or invalid parameters </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapText-400-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapText-400-schema">
+                                  <div id='responses-getWardleyMapText-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Bad request - missing or invalid parameters",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Error"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapText-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapText-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapText-400-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Internal server error </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapText-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapText-500-schema">
+                                  <div id='responses-getWardleyMapText-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Internal server error",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Error"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapText-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapText-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapText-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Default-getWardleyMapWarnings">
+                      <article id="api-Default-getWardleyMapWarnings-0" data-group="User" data-name="getWardleyMapWarnings" data-version="0">
+                        <div class="pull-left">
+                          <h1>getWardleyMapWarnings</h1>
+                          <p>Retrieve warnings for a specific Wardley Map</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/v2/get-wm-warnings</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-getWardleyMapWarnings-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapWarnings-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapWarnings-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-getWardleyMapWarnings-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-getWardleyMapWarnings-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapWarnings-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-getWardleyMapWarnings-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-getWardleyMapWarnings-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapWarnings-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapWarnings-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-getWardleyMapWarnings-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-getWardleyMapWarnings-0-curl">
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+-H "Accept: application/json"\
+-H "Content-Type: application/json"\
+"https://syntaxwardley.replit.app/v2/get-wm-warnings"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-getWardleyMapWarnings-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        V2_getwmwarnings_body body = ; // V2_getwmwarnings_body | 
+        try {
+            inline_response_200 result = apiInstance.getWardleyMapWarnings(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getWardleyMapWarnings");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-getWardleyMapWarnings-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        V2_getwmwarnings_body body = ; // V2_getwmwarnings_body | 
+        try {
+            inline_response_200 result = apiInstance.getWardleyMapWarnings(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getWardleyMapWarnings");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-getWardleyMapWarnings-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-getWardleyMapWarnings-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">V2_getwmwarnings_body *body = ; // 
+
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Retrieve warnings for a specific Wardley Map
+[apiInstance getWardleyMapWarningsWith:body
+              completionHandler: ^(inline_response_200 output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapWarnings-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var WardleyMapsApi = require('wardley_maps_api');
+
+var api = new WardleyMapsApi.DefaultApi()
+var body = ; // {{V2_getwmwarnings_body}} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.getWardleyMapWarnings(body, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-getWardleyMapWarnings-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-getWardleyMapWarnings-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class getWardleyMapWarningsExample
+    {
+        public void main()
+        {
+
+            var apiInstance = new DefaultApi();
+            var body = new V2_getwmwarnings_body(); // V2_getwmwarnings_body | 
+
+            try
+            {
+                // Retrieve warnings for a specific Wardley Map
+                inline_response_200 result = apiInstance.getWardleyMapWarnings(body);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.getWardleyMapWarnings: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapWarnings-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\ApiDefaultApi();
+$body = ; // V2_getwmwarnings_body | 
+
+try {
+    $result = $api_instance->getWardleyMapWarnings($body);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->getWardleyMapWarnings: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapWarnings-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $body = WWW::SwaggerClient::Object::V2_getwmwarnings_body->new(); # V2_getwmwarnings_body | 
+
+eval { 
+    my $result = $api_instance->getWardleyMapWarnings(body => $body);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->getWardleyMapWarnings: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getWardleyMapWarnings-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+body =  # V2_getwmwarnings_body | 
+
+try: 
+    # Retrieve warnings for a specific Wardley Map
+    api_response = api_instance.get_wardley_map_warnings(body)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->getWardleyMapWarnings: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
+                                <td>
+                                
+                                
+                                <script>
+                                $(document).ready(function() {
+                                  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/v2_getwmwarnings_body"
+      }
+    }
+  },
+  "required" : true
+};
+                                  var schema = schemaWrapper.content["application/json"].schema;
+                                  if (schema.$ref != null) {
+                                    schema = defsParser.$refs.get(schema.$ref);
+                                  } else {
+                                    schemaWrapper.components = {};
+                                    schemaWrapper.components.schemas = Object.assign({}, defs);
+                                    $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                      console.log(err);
+                                    });
+                                  }
+                                
+                                  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+                                  var result = $('#d2e199_getWardleyMapWarnings_body');
+                                  result.empty();
+                                  result.append(view.render());
+                                });
+                                </script>
+                                <div id="d2e199_getWardleyMapWarnings_body"></div>
+                                </td>
+                                </tr>
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - Successful response with warnings and original map text </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapWarnings-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapWarnings-200-schema">
+                                  <div id='responses-getWardleyMapWarnings-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Successful response with warnings and original map text",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/inline_response_200"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapWarnings-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapWarnings-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapWarnings-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 - Bad request - missing or invalid parameters </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapWarnings-400-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapWarnings-400-schema">
+                                  <div id='responses-getWardleyMapWarnings-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Bad request - missing or invalid parameters",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Error"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapWarnings-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapWarnings-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapWarnings-400-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Internal server error </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getWardleyMapWarnings-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getWardleyMapWarnings-500-schema">
+                                  <div id='responses-getWardleyMapWarnings-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Internal server error",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Error"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getWardleyMapWarnings-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getWardleyMapWarnings-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getWardleyMapWarnings-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
                     <div id="api-Default-saveWardleyMap">
                       <article id="api-Default-saveWardleyMap-0" data-group="User" data-name="saveWardleyMap" data-version="0">
                         <div class="pull-left">
@@ -1886,7 +5357,7 @@ except ApiException as e:
                         <p class="marked">Saves the provided Wardley Map data to the server and return a unique id for the map.</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/v1/maps/save</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/v2/maps/save</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -1909,7 +5380,7 @@ except ApiException as e:
                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
 -H "Accept: application/json"\
 -H "Content-Type: application/json"\
-"https://api.wardleymaps.ai/v1/maps/save"</code></pre>
+"https://syntaxwardley.replit.app/v2/maps/save"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-saveWardleyMap-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1978,9 +5449,9 @@ DefaultApi *apiInstance = [[DefaultApi alloc] init];
                             </div>
 
                             <div class="tab-pane" id="examples-Default-saveWardleyMap-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var CreateAWardleyMap = require('create_a_wardley_map');
+                              <pre class="prettyprint"><code class="language-js">var WardleyMapsApi = require('wardley_maps_api');
 
-var api = new CreateAWardleyMap.DefaultApi()
+var api = new WardleyMapsApi.DefaultApi()
 var body = ; // {{Maps_save_body}} 
 
 var callback = function(error, data, response) {
@@ -2227,6 +5698,417 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-saveWardleyMap-default-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Default-searchWardleyMapComponents">
+                      <article id="api-Default-searchWardleyMapComponents-0" data-group="User" data-name="searchWardleyMapComponents" data-version="0">
+                        <div class="pull-left">
+                          <h1>searchWardleyMapComponents</h1>
+                          <p>Search for components in a Wardley Map</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/v2/search-wm-components</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-searchWardleyMapComponents-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-searchWardleyMapComponents-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-searchWardleyMapComponents-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-searchWardleyMapComponents-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-searchWardleyMapComponents-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-searchWardleyMapComponents-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-searchWardleyMapComponents-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-searchWardleyMapComponents-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-searchWardleyMapComponents-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-searchWardleyMapComponents-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-searchWardleyMapComponents-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-searchWardleyMapComponents-0-curl">
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+-H "Accept: application/json"\
+-H "Content-Type: application/json"\
+"https://syntaxwardley.replit.app/v2/search-wm-components"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-searchWardleyMapComponents-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        Search body = ; // Search | 
+        try {
+            array[Components] result = apiInstance.searchWardleyMapComponents(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#searchWardleyMapComponents");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-searchWardleyMapComponents-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        Search body = ; // Search | 
+        try {
+            array[Components] result = apiInstance.searchWardleyMapComponents(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#searchWardleyMapComponents");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-searchWardleyMapComponents-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-searchWardleyMapComponents-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">Search *body = ; // 
+
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Search for components in a Wardley Map
+[apiInstance searchWardleyMapComponentsWith:body
+              completionHandler: ^(array[Components] output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-searchWardleyMapComponents-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var WardleyMapsApi = require('wardley_maps_api');
+
+var api = new WardleyMapsApi.DefaultApi()
+var body = ; // {{Search}} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.searchWardleyMapComponents(body, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-searchWardleyMapComponents-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-searchWardleyMapComponents-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class searchWardleyMapComponentsExample
+    {
+        public void main()
+        {
+
+            var apiInstance = new DefaultApi();
+            var body = new Search(); // Search | 
+
+            try
+            {
+                // Search for components in a Wardley Map
+                array[Components] result = apiInstance.searchWardleyMapComponents(body);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.searchWardleyMapComponents: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-searchWardleyMapComponents-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\ApiDefaultApi();
+$body = ; // Search | 
+
+try {
+    $result = $api_instance->searchWardleyMapComponents($body);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->searchWardleyMapComponents: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-searchWardleyMapComponents-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $body = WWW::SwaggerClient::Object::Search->new(); # Search | 
+
+eval { 
+    my $result = $api_instance->searchWardleyMapComponents(body => $body);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->searchWardleyMapComponents: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-searchWardleyMapComponents-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+body =  # Search | 
+
+try: 
+    # Search for components in a Wardley Map
+    api_response = api_instance.search_wardley_map_components(body)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->searchWardleyMapComponents: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
+                                <td>
+                                
+                                
+                                <script>
+                                $(document).ready(function() {
+                                  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Search"
+      }
+    }
+  },
+  "required" : true
+};
+                                  var schema = schemaWrapper.content["application/json"].schema;
+                                  if (schema.$ref != null) {
+                                    schema = defsParser.$refs.get(schema.$ref);
+                                  } else {
+                                    schemaWrapper.components = {};
+                                    schemaWrapper.components.schemas = Object.assign({}, defs);
+                                    $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                      console.log(err);
+                                    });
+                                  }
+                                
+                                  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+                                  var result = $('#d2e199_searchWardleyMapComponents_body');
+                                  result.empty();
+                                  result.append(view.render());
+                                });
+                                </script>
+                                <div id="d2e199_searchWardleyMapComponents_body"></div>
+                                </td>
+                                </tr>
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - Components found via search </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-searchWardleyMapComponents-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-searchWardleyMapComponents-200-schema">
+                                  <div id='responses-searchWardleyMapComponents-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Components found via search",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Components"
+        },
+        "x-content-type" : "application/json"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-searchWardleyMapComponents-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-searchWardleyMapComponents-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-searchWardleyMapComponents-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 - Bad request - missing or invalid parameters </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-searchWardleyMapComponents-400-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-searchWardleyMapComponents-400-schema">
+                                  <div id='responses-searchWardleyMapComponents-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Bad request - missing or invalid parameters",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Error"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-searchWardleyMapComponents-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-searchWardleyMapComponents-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-searchWardleyMapComponents-400-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Internal server error </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-searchWardleyMapComponents-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-searchWardleyMapComponents-500-schema">
+                                  <div id='responses-searchWardleyMapComponents-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Internal server error",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Error"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-searchWardleyMapComponents-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-searchWardleyMapComponents-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-searchWardleyMapComponents-500-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
